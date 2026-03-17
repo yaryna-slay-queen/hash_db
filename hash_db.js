@@ -5,16 +5,6 @@ const password = process.argv[2];
 import "dotenv/config";
 import { Pool } from "pg";
 
-const errLine = console.log;
-console.log = (...args) => {
-  const err = new Error();
-  const stack = err.stack.split("\n")[2];
-  const match =
-    stack.match(/\((.*):(\d+):(\d+)\)/) || stack.match(/at (.*):(\d+):(\d+)/);
-  const line = match ? `${match[1].split("/").pop()}:${match[2]}` : "";
-  errLine(`[${line}]`, ...args);
-};
-
 const pool = new Pool({
   connectionString: `${process.env.DB_URL}`,
   ssl: {
